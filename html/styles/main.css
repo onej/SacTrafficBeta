@@ -1,0 +1,93 @@
+body {
+  background-image: url(/images/bg.jpg);
+  color: #333;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+#incident_container {
+  float: left;
+  width: 350px;
+}
+.incidentlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.incident {
+  background: #fff;
+  border-radius: 5px;
+  font-size: 14px;
+  margin: 10px;
+  padding: 10px;
+}
+.incident .logtype {
+  font-size: 16px;
+  font-weight: bold;
+}
+.incident .logtime {
+  font-style: italic;
+}
+.incident .dtstart, .incident .geo {
+  display: none;
+}
+.incident > .button.sigalert {
+  xborder: 1px solid red;
+  xborder-radius: 5px;
+  xcolor: red;
+  background-color: #e00;
+  float: right;
+  xpadding: 0px 5px;
+}
+.incident .details {
+  display: none;
+  font-size: 12px;
+  list-style: none;
+  margin: 10px 0 0 10px;
+  padding: 0;
+}
+.incident .details .detailtime {
+  font-weight: bold;
+}
+.incident .details .sigalert {
+  color: red;
+}
+
+#map_container {
+  bottom: 10px;
+  display: none;
+  left: 350px;
+  min-height: 500px;
+  min-width: 430px;
+  position: fixed;
+  right: 10px;
+  top: 10px;
+}
+
+#trafficmap {
+  height: 100%;
+  width: 100%;
+}
+
+.marker {
+  font-size: 12px;
+}
+.marker .logtype,
+.marker .title {
+  font-size: 16px;
+  font-weight: bold;
+}
+.marker .logtime {
+  font-style: italic;
+}
+
+.mapbutton {
+  margin: 2px 5px;
+}
+
+.button.blue {
+	background-color: #165279 !important;
+	font-size: 11px !important;
+	width: 90px;
+}
