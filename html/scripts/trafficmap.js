@@ -88,6 +88,9 @@ var TrafficMap = function (elementId) {
   google.maps.event.addListener(this.gmap, 'resize', function() {
     self.fitIncidents();
   });
+  google.maps.event.addListener(this._globalInfoWindow, 'closeclick', function() {
+    self.resize();
+  });
 }
 
 /**
