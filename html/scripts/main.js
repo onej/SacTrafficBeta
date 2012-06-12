@@ -1,7 +1,7 @@
 var dispatch = 'SACC';
 var timeout = 0;
-var min_map_size = 799;
-var want_map = (document.documentElement.clientWidth > min_map_size) ? true : false;
+var min_map_size = 800;
+var want_map = (document.documentElement.clientWidth >= min_map_size) ? true : false;
 var incidentList;
 var trafficMap;
 
