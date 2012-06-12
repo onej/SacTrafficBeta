@@ -359,10 +359,10 @@ TrafficMap.prototype.make_marker = function (incident) {
     icon = this.getIcon('fire');
   } else if (/Maintenance|Construction/.test(incident.LogType)) {
     icon = this.getIcon('maintenance');
-  } else if (/Collision.*(?:No|Unknown) Injur/.test(incident.LogType)) {
-    icon = this.getIcon('collision');
   } else if (/Ambulance Enroute|Fatality/.test(incident.LogType)) {
     icon = this.getIcon('collision-serious');
+  } else if (/Collision/.test(incident.LogType)) {
+    icon = this.getIcon('collision');
   }
 
   var marker = new google.maps.Marker({
