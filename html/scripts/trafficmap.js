@@ -361,7 +361,7 @@ TrafficMap.prototype.make_marker = function (incident) {
     icon = this.getIcon('maintenance');
   } else if (/Collision.*(?:No|Unknown) Injur/.test(incident.LogType)) {
     icon = this.getIcon('collision');
-  } else if (/Ambulance Enroute/.test(incident.LogType)) {
+  } else if (/Ambulance Enroute|Fatality/.test(incident.LogType)) {
     icon = this.getIcon('collision-serious');
   }
 
