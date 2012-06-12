@@ -30,7 +30,6 @@ String.prototype.decopify = function() {
   text = text.replace(/\bSR51\b/i, 'CAP CITY FWY');
 
   text = text.replace(/ \/ /, ' at ');
-  text = text.replace(/\s*\/\//, '. ');
   text = text.replace(/\bTrfc\b/i, 'Traffic');
   text = text.replace(/\bInj\b/i, 'Injury');
   text = text.replace(/\bEnrt\b/i, 'Enroute');
@@ -38,7 +37,7 @@ String.prototype.decopify = function() {
   text = text.replace(/\bVehs\b/ig, 'Vehicles');
   text = text.replace(/\bUnk(n*)\b/i, 'Unknown');
 
-  text = text.replace(/\b1141\b/i, 'Ambulance');
+  text = text.replace(/\b1141\b/, 'Ambulance');
 
   text = text.replace(/\bRP\b/i, 'reporting party');
   text = text.replace(/\bTC\b/i, 'collision');
@@ -51,8 +50,11 @@ String.prototype.decopify = function() {
 
   text = text.replace(/^(\w+\d+ \w) at \1/i, '$1 at');
 
-  text = text.replace(/^FIRE-Report of$/i, 'Report of Fire');
+  text = text.replace(/^FIRE-Report of$/, 'Report of Fire');
+  text = text.replace(/Collision-(\w+)/, 'Collision - $1');
+  text = text.replace(/Traffic Collision/, 'Collision');
 
+  text = text.replace(/\s*\/\//, '. ');
   text = text.replace(/(\d{3})-\d{3}-\d{4}/, '$1-***-****');
   text = text.replace(/^(\[\d+\] )+/, '');
   text = text.replace(/^0 /, '');
