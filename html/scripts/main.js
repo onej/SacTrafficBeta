@@ -11,7 +11,7 @@ function get_incidents () {
   $.ajax({
     url: '/data/sa.xml',
     success: function (data) {
-      incidentList = new IncidentList($(data).find('Dispatch[ID="'+dispatch+'"] Log'));
+      incidentList = new IncidentList($(data).find('Dispatch[ID="'+dispatch+'"] Log').not('Log:[ID*=FSP]'));
       incidentList.show(document.getElementById('incident_container'));
 
       if (want_map) {
