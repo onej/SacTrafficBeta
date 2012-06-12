@@ -32,13 +32,8 @@ body {
 .incident .dtstart, .incident .geo {
   display: none;
 }
-.incident > .button.sigalert {
-  xborder: 1px solid red;
-  xborder-radius: 5px;
-  xcolor: red;
-  background-color: #e00;
+.incident .button {
   float: right;
-  xpadding: 0px 5px;
 }
 .incident .details {
   display: none;
@@ -85,9 +80,15 @@ body {
 .mapbutton {
   margin: 2px 5px;
 }
+.mapbutton .button {
+  font-size: 11px;
+  width: 90px;
+}
 
 .button.blue {
-	background-color: #165279 !important;
-	font-size: 11px !important;
-	width: 90px;
+  background-color: #165279;
+}
+
+.button.red {
+  background-color: #e00;
 }

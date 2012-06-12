@@ -77,7 +77,9 @@ Incident.prototype.show = function (element) {
 
     // Sigalert marker...
     if (this.hasSigalert) {
-      $('<div/>').addClass('button sigalert').html('sigalert').appendTo($li);
+      $('<div/>').addClass('button red').html('sigalert').appendTo($li);
+    } else if (this.LogDetails.details.length > 0) {
+      $('<div/>').addClass('button blue').html('details').appendTo($li);
     }
 
     // LogType
