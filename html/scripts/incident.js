@@ -75,12 +75,8 @@ Incident.prototype.show = function (element) {
       }
     ).hide().appendTo(element);
 
-    // Sigalert marker...
-    if (this.hasSigalert) {
-      $('<div/>').addClass('button red').html('sigalert').appendTo($li);
-    } else if (this.LogDetails.details.length > 0) {
-      $('<div/>').addClass('button blue').html('details').appendTo($li);
-    }
+    // button container...
+    $('<div/>').addClass('button').hide().appendTo($li);
 
     // LogType
     $('<div/>').addClass('logtype summary').html(this.LogType).appendTo($li);
@@ -104,14 +100,20 @@ Incident.prototype.show = function (element) {
         $('<span/>').addClass('longitude').html(point.lon)
       ).appendTo($li);
     }
-
-    // Details
-    this.showDetails($li);
   } else {
     // Existing, just update...
     $li.children('.logtype').html(this.LogType);
-    this.showDetails($li);
   }
+
+  // Light up the button
+  if (this.hasSigalert) {
+    $li.children('.button').removeClass('blue').addClass('red').html('sigalert').show();
+  } else if (this.LogDetails.details.length > 0) {
+    $li.children('.button').removeClass('red').addClass('blue').html('details').show();
+  }
+
+  // Details
+  this.showDetails($li);
 };
 
 Incident.prototype.showDetails = function (element) {
