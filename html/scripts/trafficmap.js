@@ -164,18 +164,7 @@ TrafficMap.prototype.update = function (incidents) {
     var incident = incidents.getIncident(x);
 
     if (incident.geolocation) {
-      var marker = this._markers[incident.ID];
-      if (typeof(marker) === "undefined") {
-        this._markers[incident.ID] = this.make_marker(incident);
-      } else {
-        // Existing, just update the LogType - FIXME: how to update infowindows?
-        var self = this;
-        //google.maps.event.clearListeners(marker, 'click');
-        //google.maps.event.addListener(marker, 'click', function() {
-        //  self._globalInfoWindow.setContent('<div class="marker"><div class="logtype">' + incident.LogType + '</div><div class="location">' + incident.Location + '</div><div class="logtime">' + incident.LogTime.getPrettyDateTime() + '</div></div>');
-        //  self._globalInfoWindow.open(self.gmap, marker);
-        //});
-      }
+      this._markers[incident.ID] = this.make_marker(incident);
     }
   }
 
@@ -356,8 +345,8 @@ TrafficMap.prototype.hideIncidents = function () {
  */
 TrafficMap.prototype.make_marker = function (incident) {
   var self = this;
-  var icon = this.getIcon();
 
+  var icon = this.getIcon();
   if (/Fire/.test(incident.LogType)) {
     icon = this.getIcon('fire');
   } else if (/Maintenance|Construction/.test(incident.LogType)) {
@@ -368,13 +357,20 @@ TrafficMap.prototype.make_marker = function (incident) {
     icon = this.getIcon('collision');
   }
 
-  var marker = new google.maps.Marker({
-    position: new google.maps.LatLng(incident.geolocation.lat, incident.geolocation.lon),
-    icon: icon,
-    shadow: this.getIcon('shadow'),
-    title: incident.LogType,
-    map: this.gmap
-  });
+  var marker = this._markers[incident.ID];
+  if (typeof(marker) === 'undefined') {
+    marker = new google.maps.Marker({
+      position: new google.maps.LatLng(incident.geolocation.lat, incident.geolocation.lon),
+      icon: icon,
+      shadow: this.getIcon('shadow'),
+      title: incident.LogType,
+      map: this.gmap
+    });
+  } else {
+    marker.setIcon(icon);
+    marker.setTitle(incident.LogType);
+    google.maps.event.clearListeners(marker, 'click');
+  }
 
   google.maps.event.addListener(marker, 'click', function() {
     self._globalInfoWindow.setContent('<div class="marker"><div class="logtype">' + incident.LogType + '</div><div class="location">' + incident.Location + '</div><div class="logtime">' + incident.LogTime.getPrettyDateTime() + '</div></div>');
