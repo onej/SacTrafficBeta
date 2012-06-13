@@ -18,15 +18,12 @@ String.prototype.decopify = function() {
   text = text.replace(/\bJEO\b/i, 'just east of');
   text = text.replace(/\bJWO\b/i, 'just west of');
 
-  text = text.replace(/\bNB\b/i, 'north bound');
+  text = text.replace(/\bNB*\b/i, 'north bound');
   text = text.replace(/\bSB\b/i, 'south bound');
-  text = text.replace(/\bEB\b/i, 'east bound');
-  text = text.replace(/\bWB\b/i, 'west bound');
+  text = text.replace(/\bEB*\b/i, 'east bound');
+  text = text.replace(/\bWB*\b/i, 'west bound');
 
-  text = text.replace(/ N /, ' north bound ');
-  text = text.replace(/ S /, ' south bound ');
-  text = text.replace(/ E /, ' east bound ');
-  text = text.replace(/ W /, ' west bound ');
+  text = text.replace(/ S\b/, ' south bound ');
 
   text = text.replace(/\bOFR\b/ig, 'offramp');
   text = text.replace(/\bONR\b/ig, 'onramp');
@@ -36,7 +33,7 @@ String.prototype.decopify = function() {
   text = text.replace(/\bON\b/i, 'on');
   text = text.replace(/\bTO\b/i, 'to');
 
-  text = text.replace(/\bSR51\b/i, 'CAP CITY FWY');
+  text = text.replace(/\bSR51\b/gi, 'CAP CITY FWY');
 
   text = text.replace(/\bTrfc\b/i, 'Traffic');
   text = text.replace(/\bInj\b/i, 'Injury');
