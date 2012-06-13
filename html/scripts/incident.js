@@ -78,14 +78,14 @@ Incident.prototype.show = function (element) {
     // button container...
     $('<div/>').addClass('button').hide().appendTo($li);
 
+    // Area
+    $('<div/>').addClass('area').html(this.Area).appendTo($li);
+
     // LogType
     $('<div/>').addClass('logtype summary').html(this.LogType).appendTo($li);
 
     // Location
     $('<div/>').addClass('location').html(this.Location).appendTo($li);
-
-    // Area
-    $('<div/>').addClass('area').html(this.Area).appendTo($li);
 
     // Time
     $('<div/>').addClass('logtime').html(this.LogTime.getPrettyDateTime()).append(
