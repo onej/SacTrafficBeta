@@ -17,10 +17,10 @@ String.prototype.decopify = function() {
   text = text.replace(/\bJEO\b/i, 'just east of');
   text = text.replace(/\bJWO\b/i, 'just west of');
 
-  text = text.replace(/\bNB\b/i, 'north bound');
-  text = text.replace(/\bSB\b/i, 'south bound');
-  text = text.replace(/\bEB\b/i, 'east bound');
-  text = text.replace(/\bWB\b/i, 'west bound');
+  text = text.replace(/\bNB*\b/i, 'north bound');
+  text = text.replace(/\bSB*\b/i, 'south bound');
+  text = text.replace(/\bEB*\b/i, 'east bound');
+  text = text.replace(/\bWB*\b/i, 'west bound');
 
   text = text.replace(/\bOFR\b/ig, 'offramp');
   text = text.replace(/\bONR\b/ig, 'onramp');
