@@ -9,6 +9,7 @@ String.prototype.dequote = function() {
 String.prototype.decopify = function() {
   var text = this.dequote();
 
+  text = text.replace(/''/g, '\'');
   text = text.replace(/ \/ /, ' at ');
   text = text.replace(/^(\w+\d+ \w) at \1/i, '$1 at');
 
@@ -17,10 +18,15 @@ String.prototype.decopify = function() {
   text = text.replace(/\bJEO\b/i, 'just east of');
   text = text.replace(/\bJWO\b/i, 'just west of');
 
-  text = text.replace(/\bNB*\b/i, 'north bound');
-  text = text.replace(/\bSB*\b/i, 'south bound');
-  text = text.replace(/\bEB*\b/i, 'east bound');
-  text = text.replace(/\bWB*\b/i, 'west bound');
+  text = text.replace(/\bNB\b/i, 'north bound');
+  text = text.replace(/\bSB\b/i, 'south bound');
+  text = text.replace(/\bEB\b/i, 'east bound');
+  text = text.replace(/\bWB\b/i, 'west bound');
+
+  text = text.replace(/ N /, ' north bound ');
+  text = text.replace(/ S /, ' south bound ');
+  text = text.replace(/ E /, ' east bound ');
+  text = text.replace(/ W /, ' west bound ');
 
   text = text.replace(/\bOFR\b/ig, 'offramp');
   text = text.replace(/\bONR\b/ig, 'onramp');
@@ -52,7 +58,7 @@ String.prototype.decopify = function() {
   text = text.replace(/Collision-(\w+)/, 'Collision - $1');
   text = text.replace(/Traffic Collision/, 'Collision');
 
-  text = text.replace(/\s*\/\//, '. ');
+  text = text.replace(/\s*\/\//g, '. ');
   text = text.replace(/(\d{3})-\d{3}-\d{4}/, '$1-***-****');
   text = text.replace(/^(\[\d+\] )+/, '');
   text = text.replace(/^0 /, '');
