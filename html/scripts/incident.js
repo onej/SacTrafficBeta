@@ -86,7 +86,10 @@ Incident.prototype.show = function (element) {
     $('<div/>').addClass('logtype summary').html(this.LogType).appendTo($li);
 
     // Location
-    $('<div/>').addClass('location').html(this.Location + "<br/>" + this.Area).appendTo($li);
+    $('<div/>').addClass('location').html(this.Location).appendTo($li);
+
+    // Area
+    $('<div/>').addClass('area').html(this.Area).appendTo($li);
 
     // Time
     $('<div/>').addClass('logtime').html(this.LogTime.getPrettyDateTime()).append(
