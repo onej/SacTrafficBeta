@@ -11,15 +11,22 @@ function get_incidents () {
   $.ajax({
     url: '/data/sa.xml',
     success: function (data) {
+      incidentListElement = document.getElementById('incident_container');
+
       incidentList = new IncidentList($(data).find('Dispatch[ID="'+dispatch+'"] Log').not('Log:[ID*=FSP]'));
-      incidentList.show(document.getElementById('incident_container'));
+      incidentList.show(incidentListElement);
 
       if (want_map) {
+        incidentListElement.className = 'withmap';
+
         if (typeof(trafficMap) === "undefined") {
           setup_maps();
         } else {
           trafficMap.update(incidentList);
         }
+      } else {
+        // assumes a phone here
+        window.scrollTo(0, 1);
       }
     }
   });
@@ -37,7 +44,6 @@ function setup_maps() {
 }
 
 function setup_maps_cb() {
-  $('#map_container').show();
   trafficMap = new TrafficMap('trafficmap');
   trafficMap.update(incidentList);
 }

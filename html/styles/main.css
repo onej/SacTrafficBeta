@@ -6,10 +6,10 @@ body {
   padding: 0;
 }
 
-#incident_container {
-  float: left;
+#incident_container.withmap {
   width: 350px;
 }
+
 .incidentlist {
   list-style: none;
   margin: 0;
@@ -55,7 +55,6 @@ body {
 
 #map_container {
   bottom: 10px;
-  display: none;
   left: 350px;
   min-height: 500px;
   min-width: 430px;
