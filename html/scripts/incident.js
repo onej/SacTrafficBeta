@@ -124,10 +124,12 @@ Incident.prototype.show = function (element) {
       var detailTime = $('<span/>').addClass('detailtime').html(detail.DetailTime);
       var incidentDetail = $('<span/>').addClass('incidentdetail').html(detail.IncidentDetail);
 
+      if (detail.IncidentDetail.match(/sigalert\s*\*/)) {
+        incidentDetail.addClass('sigalert');
+      }
+
       $('<li/>').append(detailTime).append(': ').append(incidentDetail).appendTo($detailsUList);
     }
-
-    $(".incidentdetail:contains('sigalert*')").addClass('sigalert');
   }
 }
 
