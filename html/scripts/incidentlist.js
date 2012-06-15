@@ -12,6 +12,7 @@
 var IncidentList = function (element) {
 	this._incidents = {};
 	this._container = $(element);
+	this._bounds = {};
 };
 
 /**
@@ -56,7 +57,10 @@ IncidentList.prototype.size = function () {
 }
 
 IncidentList.prototype.update = function (data) {
+  var lats = [];
+  var lons = [];
   var new_data_ids = [];
+
   this._subContainer = $('<ul/>').addClass('incidentlist');
 
   // Add or update existing incidents
@@ -64,8 +68,24 @@ IncidentList.prototype.update = function (data) {
     var incident = new Incident(data[x]);
     new_data_ids.push(incident.ID);
 
+    if (incident.geolocation) {
+      lats.push(incident.geolocation.lat);
+      lons.push(incident.geolocation.lon);
+    }
+
     this.addIncident(incident);
 	}
+
+  this._bounds = {
+	  sw: {
+	    lat: lats.min(),
+	    lon: lons.min()
+	  },
+	  ne: {
+	    lat: lats.max(),
+	    lon: lons.max()
+	  }
+	};
 
   // Remove incidents we no longer have
   for (var id in this.getIncidents()) {
@@ -88,23 +108,5 @@ IncidentList.prototype.update = function (data) {
  * @returns {Object}
  */
 IncidentList.prototype.getBounds = function() {
-  var lats = [];
-  var lons = [];
-
-  for (var id in this.getIncidents()) {
-    var incident = this.getIncident(id);
-    lats.push(incident.geolocation.lat);
-    lons.push(incident.geolocation.lon);
-  }
-
-	return {
-	  sw: {
-	    lat: lats.min(),
-	    lon: lons.min()
-	  },
-	  ne: {
-	    lat: lats.max(),
-	    lon: lons.max()
-	  }
-	};
-};
+  return this._bounds;
+}
