@@ -9,36 +9,9 @@
  * @param {Array} data An array of CHP Incidents from SacTraffic.org.
  * @property {Number} length The number of Incidents in the list.
  */
-var IncidentList = function (data) {
-	this.length = data.length;
-	this._incidents = [];
-	this._index = {};
-	this._lats = [];
-	this._lons = [];
-	this.ids = [];
-
-	for (var x = 0; x < data.length; x++) {
-		var incident = new Incident(data[x]);
-
-    this._incidents.push(incident);
-		this._index[incident.ID] = x;
-		if (incident.geolocation) {
-		  this._lats.push(incident.geolocation.lat);
-		  this._lons.push(incident.geolocation.lon);
-		}
-		this.ids.push(incident.ID);
-	}
-
-
-};
-
-/**
- * Gets an Incident by it's index number.
- * @param {Number} index The Incident's index in the IncidentList.
- * @returns {Incident}
- */
-IncidentList.prototype.getIncident = function(index) {
-	return this._incidents[index];
+var IncidentList = function (element) {
+	this._incidents = {};
+	this._container = $(element);
 };
 
 /**
@@ -46,53 +19,90 @@ IncidentList.prototype.getIncident = function(index) {
  * @param {String} id The Incident's CHP ID.
  * @returns {Incident}
  */
-IncidentList.prototype.getIncidentById = function(id) {
-	return this._incidents[this._index[id]];
+IncidentList.prototype.getIncident = function(id) {
+	return this._incidents[id];
 };
+
+IncidentList.prototype.getIncidents = function() {
+	return this._incidents;
+};
+
+IncidentList.prototype.addIncident = function (incident) {
+  incident.show(this._subContainer);
+  this._incidents[incident.ID] = incident;
+}
+
+IncidentList.prototype.delIncident = function (incident) {
+  incident.unShow();
+  delete this._incidents[incident.ID];
+}
+
+IncidentList.prototype.containsId = function (id) {
+  var ids = [];
+  for (var incident_id in this.getIncidents()) {
+    ids.push(incident_id);
+  }
+  return (ids.indexOf(id) === -1) ? false : true;
+}
+
+IncidentList.prototype.size = function () {
+  var size = 0;
+  for (var incident_id in this.getIncidents()) {
+    size++;
+  }
+  return size;
+}
+
+IncidentList.prototype.update = function (data) {
+  var new_data_ids = [];
+  this._subContainer = $('<ul/>').addClass('incidentlist');
+
+  // Add or update existing incidents
+  for (var x = 0; x < data.length; x++) {
+    var incident = new Incident(data[x]);
+    new_data_ids.push(incident.ID);
+
+    this.addIncident(incident);
+	}
+
+  // Remove incidents we no longer have
+  for (var id in this.getIncidents()) {
+    var incident = this.getIncident(id);
+    if (new_data_ids.indexOf(incident.ID) === -1) {
+      this.delIncident(incident);
+    }
+  }
+
+  if (this._subContainer.children().length > 0) {
+    this._subContainer.prependTo(this._container).children('.incident').fadeIn();
+  }
+
+  // cleanup empty ul containers
+  $('.incidentlist:empty').remove();
+}
 
 /**
  * Get the bounding box of the incidents.
  * @returns {Object}
  */
 IncidentList.prototype.getBounds = function() {
+  var lats = [];
+  var lons = [];
+
+  for (var id in this.getIncidents()) {
+    var incident = this.getIncident(id);
+    lats.push(incident.geolocation.lat);
+    lons.push(incident.geolocation.lon);
+  }
+
 	return {
 	  sw: {
-	    lat: this._lats.min(),
-	    lon: this._lons.min()
+	    lat: lats.min(),
+	    lon: lons.min()
 	  },
 	  ne: {
-	    lat: this._lats.max(),
-	    lon: this._lons.max()
+	    lat: lats.max(),
+	    lon: lons.max()
 	  }
 	};
-};
-
-/**
- * Makes a standard unordered list for the display of Incidents.
- * @param {String|jQuery} element An element (a selector, element, HTML string, or jQuery object) to append the unordered list to.
- */
-IncidentList.prototype.show = function (element) {
-  // Remove incidents we no longer have
-  var self = this;
-  $('.incident').each(function () {
-    if (self.ids.indexOf(this.id) === -1) {
-      $(this).slideUp(function() {
-        $(this).remove()
-      });
-    }
-  });
-
-  // cleanup empty ul containers
-  $('.incidentlist:empty').remove();
-
-  var $ul = $('<ul/>').addClass('incidentlist');
-
-  // Now show (or update) the incidents
-  for (var x = 0; x < this.length; x++) {
-    this.getIncident(x).show($ul);
-  }
-
-  if ($ul.children().length > 0) {
-    $ul.prependTo(element).children('.incident').fadeIn();
-  }
 };

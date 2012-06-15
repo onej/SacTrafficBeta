@@ -152,16 +152,16 @@ TrafficMap.prototype.make_camera_button = function () {
 TrafficMap.prototype.update = function (incidents) {
   this.incidents = incidents;
 
-  // remove incidents we no longer have
+  // remove markers for incidents we no longer have
   for (var id in this._markers) {
-    if (incidents.ids.indexOf(id) === -1) {
+    if (!this.incidents.containsId(id)) {
       this._markers[id].setMap(null);
       delete this._markers[id];
     }
   }
 
-  for (var x = 0; x < incidents.length; x++) {
-    var incident = incidents.getIncident(x);
+  for (var id in this.incidents.getIncidents()) {
+    var incident = this.incidents.getIncident(id);
 
     if (incident.geolocation) {
       this._markers[incident.ID] = this.make_marker(incident);
@@ -175,7 +175,7 @@ TrafficMap.prototype.update = function (incidents) {
  * Moves the map to cover the all the incidents.
  */
 TrafficMap.prototype.fitIncidents = function () {
-  if (typeof(this.incidents) !== 'undefined' && this.incidents.length > 1 && !this._map_has_been_moved) {
+  if (typeof(this.incidents) !== 'undefined' && this.incidents.size() > 1 && !this._map_has_been_moved) {
     var bounds = this.incidents.getBounds();
     this.gmap.fitBounds(new google.maps.LatLngBounds(
       new google.maps.LatLng (bounds.sw.lat, bounds.sw.lon),

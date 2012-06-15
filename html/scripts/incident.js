@@ -113,17 +113,12 @@ Incident.prototype.show = function (element) {
   }
 
   // Details
-  this.showDetails($li);
-};
-
-Incident.prototype.showDetails = function (element) {
   if (this.LogDetails.details.length > 0) {
-    var $element = $(element);
-    $element.css('cursor', 'pointer');
+    $li.css('cursor', 'pointer');
 
-    var details = $element.children('.details').empty();
+    var details = $li.children('.details').empty();
     if (details.length === 0) {
-      details = $('<ul/>').addClass('details').appendTo($element);
+      details = $('<ul/>').addClass('details').appendTo($li);
     }
 
     for (var x = 0; x < this.LogDetails.details.length; x++) {
@@ -147,4 +142,11 @@ Incident.prototype.highlightDisplay = function () {
   setTimeout(function () {
     incident_element.style.background = '#fff';
   }, 100);
+}
+
+Incident.prototype.unShow = function () {
+  $incident = $('#'+this.ID);
+  $incident.slideUp(function() {
+    $(this).remove();
+  });
 }

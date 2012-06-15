@@ -2,7 +2,7 @@ var dispatch = 'SACC';
 var timeout = 0;
 var min_map_size = 800;
 var want_map = (document.documentElement.clientWidth >= min_map_size) ? true : false;
-var incidentList;
+var incidentList = new IncidentList(document.getElementById('incident_container'));
 var trafficMap;
 
 get_incidents();
@@ -11,13 +11,10 @@ function get_incidents () {
   $.ajax({
     url: '/data/sa.xml',
     success: function (data) {
-      incidentListElement = document.getElementById('incident_container');
-
-      incidentList = new IncidentList($(data).find('Dispatch[ID="'+dispatch+'"] Log').not('Log:[ID*=FSP]'));
-      incidentList.show(incidentListElement);
+      incidentList.update($(data).find('Dispatch[ID="'+dispatch+'"] Log').not('Log:[ID*=FSP]'));
 
       if (want_map) {
-        incidentListElement.className = 'withmap';
+        document.getElementById('incident_container').className = 'withmap';
 
         if (typeof(trafficMap) === "undefined") {
           setup_maps();
