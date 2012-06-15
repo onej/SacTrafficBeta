@@ -148,3 +148,17 @@ Incident.prototype.unShow = function () {
     $(this).remove();
   });
 }
+
+Incident.prototype.compare = function (incident) {
+  if (this.ID !== incident.ID) {
+    return false;
+  }
+  if (this.LogType !== incident.LogType) {
+    return false;
+  }
+  if (this.LogDetails.details.length !== incident.LogDetails.details.length) {
+    return false;
+  }
+
+  return true;
+}

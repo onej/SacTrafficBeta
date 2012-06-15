@@ -28,8 +28,10 @@ IncidentList.prototype.getIncidents = function() {
 };
 
 IncidentList.prototype.addIncident = function (incident) {
-  incident.show(this._subContainer);
-  this._incidents[incident.ID] = incident;
+  if (typeof (this._incidents[incident.ID]) === 'undefined' || !this._incidents[incident.ID].compare(incident)) {
+    this._incidents[incident.ID] = incident;
+    incident.show(this._subContainer);
+  }
 }
 
 IncidentList.prototype.delIncident = function (incident) {
