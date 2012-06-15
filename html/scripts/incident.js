@@ -65,32 +65,32 @@ var Incident = function (node) {
 Incident.prototype.show = function (element) {
   var self = this;
   var point = (this.geolocation) ? this.geolocation : null;
-  var $li = $('#' + this.ID);
+  var $listItem = $('#' + this.ID);
 
-  if ($li.length === 0) {
+  if ($listItem.length === 0) {
     // Is new, build from scratch
-    $li = $('<li/>').attr('id', this.ID).addClass('incident').addClass('vevent').click(
+    $listItem = $('<li/>').attr('id', this.ID).addClass('incident').addClass('vevent').click(
       function () {
         $(this).children('.details').slideToggle('fast');
       }
     ).hide().appendTo(element);
 
     // button container...
-    $('<div/>').addClass('button').hide().appendTo($li);
+    $('<div/>').addClass('button').hide().appendTo($listItem);
 
     // Area
-    $('<div/>').addClass('area').html(this.Area).appendTo($li);
+    $('<div/>').addClass('area').html(this.Area).appendTo($listItem);
 
     // LogType
-    $('<div/>').addClass('logtype summary').html(this.LogType).appendTo($li);
+    $('<div/>').addClass('logtype summary').html(this.LogType).appendTo($listItem);
 
     // Location
-    $('<div/>').addClass('location').html(this.Location).appendTo($li);
+    $('<div/>').addClass('location').html(this.Location).appendTo($listItem);
 
     // Time
     $('<div/>').addClass('logtime').html(this.LogTime.getPrettyDateTime()).append(
       $('<span/>').addClass('dtstart').html(this.LogTime.getISO8601())
-    ).appendTo($li);
+    ).appendTo($listItem);
 
     // Add the geo microformat
     if (point) {
@@ -98,25 +98,25 @@ Incident.prototype.show = function (element) {
         $('<span/>').addClass('latitude').html(point.lat)
       ).append(
         $('<span/>').addClass('longitude').html(point.lon)
-      ).appendTo($li);
+      ).appendTo($listItem);
     }
   } else {
     // Existing, just update...
-    $li.children('.logtype').html(this.LogType);
+    $listItem.children('.logtype').html(this.LogType);
   }
 
   // Light up the button
   if (this.hasSigalert) {
-    $li.children('.button').removeClass('blue').addClass('red').html('sigalert').show();
+    $listItem.children('.button').removeClass('blue').addClass('red').html('sigalert').show();
   } else if (this.LogDetails.details.length > 0) {
-    $li.children('.button').removeClass('red').addClass('blue').html('details').show();
+    $listItem.children('.button').removeClass('red').addClass('blue').html('details').show();
   }
 
   // Details
   if (this.LogDetails.details.length > 0) {
-    var details = $li.children('.details').empty();
-    if (details.length === 0) {
-      details = $('<ul/>').addClass('details').appendTo($li);
+    var $detailsUList = $listItem.children('.details').empty();
+    if ($detailsUList.length === 0) {
+      $detailsUList = $('<ul/>').addClass('details').appendTo($listItem);
     }
 
     for (var x = 0; x < this.LogDetails.details.length; x++) {
@@ -124,7 +124,7 @@ Incident.prototype.show = function (element) {
       var detailTime = $('<span/>').addClass('detailtime').html(detail.DetailTime);
       var incidentDetail = $('<span/>').addClass('incidentdetail').html(detail.IncidentDetail);
 
-      $('<li/>').append(detailTime).append(': ').append(incidentDetail).appendTo(details);
+      $('<li/>').append(detailTime).append(': ').append(incidentDetail).appendTo($detailsUList);
     }
 
     $(".incidentdetail:contains('sigalert*')").addClass('sigalert');
