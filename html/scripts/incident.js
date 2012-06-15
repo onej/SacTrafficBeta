@@ -114,8 +114,6 @@ Incident.prototype.show = function (element) {
 
   // Details
   if (this.LogDetails.details.length > 0) {
-    $li.css('cursor', 'pointer');
-
     var details = $li.children('.details').empty();
     if (details.length === 0) {
       details = $('<ul/>').addClass('details').appendTo($li);
@@ -126,12 +124,10 @@ Incident.prototype.show = function (element) {
       var detailTime = $('<span/>').addClass('detailtime').html(detail.DetailTime);
       var incidentDetail = $('<span/>').addClass('incidentdetail').html(detail.IncidentDetail);
 
-      if (detail.IncidentDetail.match(/sigalert\*/)) {
-        incidentDetail.addClass('sigalert');
-      }
-
       $('<li/>').append(detailTime).append(': ').append(incidentDetail).appendTo(details);
     }
+
+    $(".incidentdetail:contains('sigalert*')").addClass('sigalert');
   }
 }
 
