@@ -1,11 +1,24 @@
+/**
+ * @fileoverview String extensions.
+ */
+
+/**
+ * Returns a capitalized string.
+ */
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
+/**
+ * Removes the quotes around a string.
+ */
 String.prototype.dequote = function() {
   return this.replace(/^"|"$/g, '');
 }
 
+/**
+ * Converts "cop talk" in a string to English.
+ */
 String.prototype.decopify = function() {
   var text = this.dequote();
 
