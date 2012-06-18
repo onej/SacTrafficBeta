@@ -1,6 +1,7 @@
 
 CLOSURE=java -jar tools/closure/compiler.jar
 YUICOMP=java -jar tools/yuicompressor/yuicompressor-2.4.7.jar
+JSDOC=java -jar tools/jsdoc-toolkit/jsrun.jar tools/jsdoc-toolkit/app/run.js -a -p -t=tools/jsdoc-toolkit/templates/jsdoc
 
 JSFILES= \
 	../html/scripts/array.js \
@@ -15,10 +16,14 @@ CSSFILES= \
 	../html/styles/button.css \
 	../html/styles/main.css
 
-all: ../html/sactraffic-min.js ../html/sactraffic-min.css
+all: ../html/sactraffic-min.js ../html/sactraffic-min.css .do-jsdocs
 
 ../html/sactraffic-min.js: $(JSFILES)
 	$(CLOSURE) --js $^ --js_output_file $@
 
 ../html/sactraffic-min.css: $(CSSFILES)
 	cat $^ > tmp.css && $(YUICOMP) -o $@ tmp.css && rm -f tmp.css
+
+.do-jsdocs: $(JSFILES)
+	$(JSDOC) -d=../html/jsdoc ../html/scripts
+	touch .do-jsdocs
