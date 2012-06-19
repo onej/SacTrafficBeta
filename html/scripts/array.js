@@ -19,3 +19,16 @@ if (typeof Array.prototype.min === 'undefined') {
     return Math.min.apply(null, this);
   }
 }
+
+if (typeof Array.prototype.indexOf === 'undefined') {
+  // For IE8
+  Array.prototype.indexOf = function (elem) {
+			len = this.length;
+
+			for (var i = 0; i < len; i++) {
+				if ( i in this && this[ i ] === elem ) {
+					return i;
+				}
+			}
+		}
+}
