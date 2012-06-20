@@ -10,6 +10,8 @@
  * @param {String} elementId An ID to load the map into.
  */
 var TrafficMap = function (elementId) {
+  var self = this;
+
   this._live_cams = [];
   this._traffic_overlay = null;
   this._markers = {};
@@ -21,12 +23,8 @@ var TrafficMap = function (elementId) {
     zoom: 11,
     center: new google.maps.LatLng(38.56, -121.40),
     mapTypeId: google.maps.MapTypeId.ROADMAP,
-    streetViewControl: false,
-    mapTypeControl: false,
     scrollwheel: false,
-    navigationControlOptions: {
-      style: google.maps.NavigationControlStyle.SMALL
-    }
+    disableDefaultUI: true
   };
   this.gmap = new google.maps.Map(document.getElementById(elementId), mapOptions);
 
@@ -72,6 +70,14 @@ var TrafficMap = function (elementId) {
   // Setup the map buttons.
   this.make_traffic_button();
   this.make_camera_button();
+  var recenter_btn = document.getElementById('recenter_btn');
+  recenter_btn.onclick = function () {
+    this.style.display = 'none';
+    self._map_has_been_moved = false;
+    self.fitIncidents();
+  };
+
+  this.gmap.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('mapcontrol'));
 
   if (this.getState('live_cams')) {
     this.show_live_cams();
@@ -81,8 +87,8 @@ var TrafficMap = function (elementId) {
   }
 
   // Events...
-  var self = this;
   google.maps.event.addListener(this.gmap, 'dragend', function() {
+    recenter_btn.style.display = 'block';
     self._map_has_been_moved = true;
   });
   google.maps.event.addListener(this.gmap, 'resize', function() {
@@ -101,9 +107,7 @@ var TrafficMap = function (elementId) {
 TrafficMap.prototype.make_traffic_button = function () {
   var self = this;
 
-  this.traffic_button = document.createElement('div');
-  this.traffic_button.innerHTML = 'Show Traffic';
-  this.traffic_button.className = 'button blue';
+  this.traffic_button = document.getElementById('traffic_btn');
   this.traffic_button.onclick = function () {
     if (self.getState('traffic')) {
       self.hide_traffic();
@@ -111,12 +115,6 @@ TrafficMap.prototype.make_traffic_button = function () {
       self.show_traffic();
     }
   };
-
-  var button_container = document.createElement('div');
-  button_container.className = 'mapbutton';
-  button_container.appendChild(this.traffic_button);
-
-  this.gmap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(button_container);
 };
 
 /**
@@ -127,9 +125,7 @@ TrafficMap.prototype.make_traffic_button = function () {
 TrafficMap.prototype.make_camera_button = function () {
   var self = this;
 
-  this.camera_button = document.createElement('div');
-  this.camera_button.innerHTML = 'Show Cameras';
-  this.camera_button.className = 'button blue';
+  this.camera_button = document.getElementById('camera_btn');
   this.camera_button.onclick = function () {
     if (self.getState('live_cams')) {
       self.hide_live_cams();
@@ -137,12 +133,6 @@ TrafficMap.prototype.make_camera_button = function () {
       self.show_live_cams();
     }
   };
-
-  var button_container = document.createElement('div');
-  button_container.className = 'mapbutton';
-  button_container.appendChild(this.camera_button);
-
-  this.gmap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(button_container);
 };
 
 /**
