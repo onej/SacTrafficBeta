@@ -34,3 +34,15 @@
 
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.7);
 }
+
+.button.blue {
+  background-color: #165279;
+}
+
+.button.red {
+  background-color: #e00;
+}
+
+.button.trans {
+  opacity: .6;
+}
