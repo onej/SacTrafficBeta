@@ -68,26 +68,39 @@ body {
   text-align: right;
 }
 
-#mapcontrol:hover .mapmenu {
-  opacity: 1;
-  height: 100px;
-}
-
-#mapcontrol > .button {
+#mapcontrol .menubutton {
+  background-color: #111;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,.2)), color-stop(0.5, rgba(150,150,150,.2)), to(rgba(0,0,0,.0)));
+  background-image: -moz-linear-gradient(top, rgba(255,255,255,.2), rgba(150,150,150,.2), rgba(0,0,0,.0));
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#30ffffff,endColorstr=#10000000) progid:DXImageTransform.Microsoft.Shadow(color=#000000,direction=135,strength=2);
+  border-radius: 5px;
+  color: #fff;
   height: 16px;
+  margin-bottom: 5px;
+  margin-left: 50px;
+  opacity: .6;
+  padding: 5px 10px 6px;
+  text-align: center;
   width: 40px;
 }
 
-#mapcontrol .gear {
+#mapcontrol .menubutton .gear {
   height: 20px;
   width: 20px;
 }
 
 #mapcontrol .mapmenu {
-  opacity: 0;
   height: 0;
+  opacity: .7;
   overflow: hidden;
-  -webkit-transition: all .7s ease;
+
+  -webkit-transition: all .6s ease;
+  -moz-transition: all .6s ease;
+}
+
+#mapcontrol:hover .mapmenu {
+  height: 100px;
+  opacity: .9;
 }
 
 #mapcontrol .mapmenu .button {
@@ -111,12 +124,4 @@ body {
 }
 .marker .logtime {
   font-style: italic;
-}
-
-.mapbutton {
-  margin: 2px 5px;
-}
-.mapbutton .button {
-  font-size: 11px;
-  width: 90px;
 }
