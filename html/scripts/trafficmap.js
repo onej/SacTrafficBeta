@@ -20,7 +20,7 @@ var TrafficMap = function (elementId) {
   this._map_has_been_moved = false;
 
   var mapOptions = {
-    zoom: 11,
+    zoom: 9,
     center: new google.maps.LatLng(38.56, -121.40),
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     scrollwheel: false,
@@ -29,6 +29,17 @@ var TrafficMap = function (elementId) {
   this.gmap = new google.maps.Map(document.getElementById(elementId), mapOptions);
 
   // Style the map...
+  var grayStyle = [
+    {
+      stylers: [
+        { saturation: -100 },
+        { visibility: "simplified" },
+        { gamma: 0.5 },
+        { lightness: 10 }
+      ]
+    }
+  ];
+
   var sactrafficMapStyle = [
     {
       featureType: "landscape",
@@ -88,6 +99,10 @@ var TrafficMap = function (elementId) {
 
   // Events...
   google.maps.event.addListener(this.gmap, 'dragend', function() {
+    recenter_btn.style.display = 'block';
+    self._map_has_been_moved = true;
+  });
+  google.maps.event.addListener(this.gmap, 'dblclick', function() {
     recenter_btn.style.display = 'block';
     self._map_has_been_moved = true;
   });

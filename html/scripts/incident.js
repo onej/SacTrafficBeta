@@ -88,7 +88,7 @@ Incident.prototype.show = function (element) {
     $('<div/>').addClass('location').html(this.Location).appendTo($listItem);
 
     // Time
-    $('<div/>').addClass('logtime').html(this.LogTime.getPrettyDateTime()).append(
+    $('<div/>').addClass('logtime').html(this.LogTime.ago() + ", " + this.LogTime.getPrettyTime()).append(
       $('<span/>').addClass('dtstart').html(this.LogTime.getISO8601())
     ).appendTo($listItem);
 
