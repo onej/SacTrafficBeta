@@ -30,7 +30,9 @@ body {
   font-weight: bold;
 }
 .incident .logtime {
+  font-size: 12px;
   font-style: italic;
+  margin-top: 4px;
 }
 .incident .dtstart, .incident .geo {
   display: none;
@@ -94,8 +96,8 @@ body {
   opacity: .7;
   overflow: hidden;
 
-  -webkit-transition: all .6s ease;
-  -moz-transition: all .6s ease;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
 }
 
 #mapcontrol:hover .mapmenu {
